@@ -12,3 +12,4 @@ for i in bydate_operations[:5]:
           f"{from_} -> {to_}\n"
           f"{i.get('operationAmount').get('amount')} "
           f"{i.get('operationAmount').get('currency').get('name')}\n")
+

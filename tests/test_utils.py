@@ -1,10 +1,15 @@
 import pytest
 from functions.utils import *
+from pathlib import Path
 
 
 @pytest.fixture
 def data_executed():
     return [{'state': 'EXECUTED'}, {'state': 'EXECUTED'}, {'state': 'fault'}]
+
+
+path_test_file = Path('tests/test_file.json').absolute()
+path_empty_test_file = Path('tests/empty_test_file.json').absolute()
 
 data_from1 = {"from": "Счет 77977573135347241529"}
 data_from2 = {"from": "Visa Gold 7756673469642839"}
@@ -31,12 +36,13 @@ sortby_date_example_expected = [
     {"date": "2018-06-30T02:08:58.425572"}
 ]
 
+
 def test_get_data():
     with pytest.raises(FileNotFoundError):
-        get_data(None)
-    assert type(get_data('test_file.json')) == list
+        get_data('')
+    assert type(get_data(path_test_file)) == list
     with pytest.raises(ValueError):
-        get_data('empty_test_file.json')
+        get_data(path_empty_test_file)
 
 
 def test_sortby_executed(data_executed):
@@ -63,5 +69,3 @@ def test_operation_mapping_date():
     assert operation_mapping_date(date_example1) == '30.10.2019'
     assert type(operation_mapping_date(date_example1)) == str
     assert operation_mapping_date(date_example2) == 'Дата неизвестна'
-
-
