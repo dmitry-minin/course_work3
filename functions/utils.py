@@ -3,6 +3,10 @@ from datetime import datetime
 
 
 def get_data(file_path: str) -> list[dict]:
+    """
+    Функция принимает на вход путь к файлу и возвращает список словарей.
+    Если путь к файлу пустой или файл пустой, то возбуждается исключение.
+    """
     if not file_path:
         raise FileNotFoundError("Empty path")
     with open(file_path) as f:
@@ -13,6 +17,10 @@ def get_data(file_path: str) -> list[dict]:
 
 
 def sortby_executed(array: list[dict]) -> list[dict]:
+    """
+    Функция принимает на вход список словарей и возвращает список словарей,
+    содержащий только словари с ключом'state' равным 'EXECUTED'.
+    """
     sorted_status = []
     for i in array:
         i_array = str(i.get('state'))
@@ -22,11 +30,19 @@ def sortby_executed(array: list[dict]) -> list[dict]:
 
 
 def sortby_date(list_of_dicts: list[dict]) -> list[dict]:
+    """
+    Функция принимает на вход список словарей и возвращает отсортированный
+    список словарей по ключу 'date' в порядке убывания.
+    """
     sorted_list = sorted(list_of_dicts, key=lambda k: k['date'], reverse=True)
     return sorted_list
 
 
 def operation_mapping_from(operation: dict) -> str or None:
+    """
+    Функция принимает на вход словарь операции и возвращает строку,
+    содержащую название платежного типа, откуда списаны средства и номер карты или счета.
+    """
     from_ = operation.get('from')
     if not from_:
         return "Поступление"
@@ -40,6 +56,10 @@ def operation_mapping_from(operation: dict) -> str or None:
 
 
 def operation_mapping_to(operation: dict) -> str or None:
+    """
+    Функция принимает на вход словарь операции и возвращает строку,
+    содержащую название платежного типа куда зачислены средства, и номер карты или счета.
+    """
     to_ = operation.get('to')
     if not to_:
         return 'Неизвестно'
@@ -53,6 +73,10 @@ def operation_mapping_to(operation: dict) -> str or None:
 
 
 def operation_mapping_date(operation: dict) -> datetime or None:
+    """
+    Функция принимает на вход словарь операции и возвращает строку,
+    содержащую дату операции в формате dd.mm.yyyy.
+    """
     date = operation.get('date')
     if not date:
         return "Дата неизвестна"
